@@ -1,0 +1,17 @@
+name: AB Test Framework
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *'
+jobs:
+  ab_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - run: python src/generate_ab_data.py
+      - run: python src/ab_analysis.py
+      - run: python src/power_analysis.py
